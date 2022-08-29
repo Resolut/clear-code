@@ -1,23 +1,29 @@
 # Ясный код. Урок 6
 
 # 3.1
-# 3.1.1 IncidentProccessor -> IncidentController
+# 3.1.1
+# IncidentProccessor -> IncidentController
 # Класс управляющий процессами возникающих инцидентов в системе
 
-# 3.1.2 Adapter -> CasbinPloicyAdapter
+# 3.1.2
+# Adapter -> CasbinPloicyAdapter
 # Вспомогательный класс прослойка для интерфейсов библиотеки Casbin для управления политикой разрешений
 
-# 3.1.3 JobRunner -> BaseJobRunner
+# 3.1.3
+# JobRunner -> BaseJobRunner
 # Базовый класс, создающий и запускающий задачу отдельными процессом
 
-# 3.1.4 Parser - IncomeEventLogParser
+# 3.1.4
+# Parser - IncomeEventLogParser
 # Класс парсера логов событий входа в систему
 
-# 3.1.5 WhitelistEditRule -> WhiteListRuleEditor
+# 3.1.5
+# WhitelistEditRule -> WhiteListRuleEditor
 # Класс, управляющий правилами для управления "белыми" списками ресурсов
 
 # 3.2
-# 3.2.1 purge -> remove
+# 3.2.1
+# purge -> remove
 # для очистки любых неактуальных объектов и файлов в системе по смыслу больше подходит 'remove'
 
 # 3.2.2
