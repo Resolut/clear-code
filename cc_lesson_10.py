@@ -100,7 +100,7 @@
 # ))
 
 
-# 8 более питоничное сравнение на пустой список
+# 8 более 'питоничное' сравнение на пустой список
 # name_problem = [name for name in transfer_list if area[name]["anxiety"]]
 # было
 # if name_problem == []:
@@ -160,4 +160,3 @@
 # if current < level["level"] and previous >= level["level"]:
 # стало
 # if current < level["level"] <= previous:
-
