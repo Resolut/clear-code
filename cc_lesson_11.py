@@ -220,18 +220,18 @@
 
 # 14
 #  параметр 'order' вложенной функции переопределяет переменную внешней функции,
-#  переименовал ее, так как она активно используется далее по коду
+#  переименовал ее в 'order_kind', так как она активно используется далее по коду
 
 # def build(self):
 #     order = self.params.get("orderby", "target")
 #
-#     def get_accounts(value, source, _max, order):
-#         if order == "incident_impact":
-#             order = "incident_impact"
-#         elif order == "incident_count":
-#             order = "incident_count"
+#     def get_accounts(value, source, _max, order_kind):
+#         if order_kind == "incident_impact":
+#             order_kind = "incident_impact"
+#         elif order_kind == "incident_count":
+#             order_kind = "incident_count"
 #         else:
-#             order = "session_id"
+#             order_kind = "session_id"
 
 
 # 15
