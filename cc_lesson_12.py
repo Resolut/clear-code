@@ -145,3 +145,101 @@
 #                 < попытка трассировки ошибки >
 #             except Exception:
 #                 < запись в лог об ошибке>
+
+
+# 6
+# В методе 'run' контроллера большой блок кода создающий и подготавливающий к использованию
+# объект отчета (report).
+# Вынес этот блока кода в отдельный метод '_build_report'
+
+# class ReportTemplatesController(object):
+#     def _build_report():
+#         report_class = self._report_class()
+#         report = report_class(g.db, preview=True)
+#
+#         result, self.errors = report.load.params(request.form)
+#
+#         if self.errors:
+#             flash_errors(self.errors)
+#         else:
+#             report.prepare_params(result)
+#             report.build()
+#             report.suppress_lines()
+#         return report
+#
+#     def run(self):
+#         report._build_report()
+#         params = report.dump_params(result)
+#
+#         template, report_data = report.show()
+
+
+# 7
+# В методе создания пользователя 'create' сгруппировал команды,
+# обновляющие форму перед отрисовкой ее на фронтенде.
+# Вынес в отдельный метод 'prepare_user_form'
+
+# def prepare_user_form(self):
+#     form = BaseForm()
+#     form.obj.force_change_pwd = True
+#     form.obj.password_expires_at = self._get_expiration_date()
+#     form.obj.account_expires_at = self._get_expiration_date("account")
+#     return form
+#
+# def create(self):
+#     if request.method == "GET":
+#         self.prepare_user_form()
+#
+#         return render_template("users/new.html", f=form.obj, action="new")
+
+
+# 8
+# Сгруппировал в отдельный метод 'draw_charts' команды для построения графика
+# для переданных данных
+#  def draw_chart(index, counts):
+#         ws_chart = pygal.StackedBar(pygal_config)
+#
+#         ws_chart.y_labels_major = [10, 100, 1000, 10000, 100000]
+#         ws_chart.x_labels = index
+#         ws_chart.height = 400
+#
+#         ws_chart.add(_("Sessions"), counts["data"]["sessions"].to_list())
+#         ws_chart.add(_("Events"), counts["data"]["events"].to_list())
+#
+#         inc_chart = pygal.StackedBar(pygal_config)
+#
+#         inc_chart.y_labels_major = [10, 100, 1000, 10000, 100000]
+#         inc_chart.x_labels = index
+#         inc_chart.height = 400
+
+# def _get_stats(self, params):
+#     < код получения index и counts >
+#     draw_chart(index, counts)
+
+
+# 9 сгруппировал в отдельный метод 'init_pygal_config'
+# настройку файла конфигурации для отрисовки графика
+
+# def init_pygal_config():
+#     pygal_config = pygal.Config(fill=False, interpolate=None)
+#
+#     pygal_config.disable_xml_declaration = True
+#     pygal_config.show_minor_y_labels = False
+#     pygal_config.show_minor_x_labels = False
+#     pygal_config.x_labels_major_every = 3
+#     pygal_config.truncate_label = -1
+#     pygal_config.style = pygal.style.DefaultStyle(label_font_size=14)
+#
+#     pygal_config.css.append(get_pygal_css_path())
+
+
+# 10
+# В метод передаётся список exclude, который может быть изменен в процессе выполнения функции
+# Внутри метода завел tuple, в который копирую данные из списка и работаю дальше уже с ним.
+
+# def _load(self, params, exclude=[]):
+#     excluded = tuple(exclude)
+#     if params.get("mail"):
+#         params = self._process_mail_credentials(params)
+#     data, self.errors = sch.GeneralConfigurationSchema(exclude=excluded).load(params)
+#     return data
