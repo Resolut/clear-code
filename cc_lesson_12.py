@@ -243,3 +243,114 @@
 #         params = self._process_mail_credentials(params)
 #     data, self.errors = sch.GeneralConfigurationSchema(exclude=excluded).load(params)
 #     return data
+
+
+# 11
+# Перенёс в отдельный метод init_incident инициализацию пустыми значениями объекта 'incident'
+
+# class IncidentController(object):
+#     def init_incident(self):
+#         incident = type("", (), {})()
+#         incident.session = type("", (), {})()
+#         incident.session.user = ""
+#         incident.session.device = ""
+#         incident.session.proxy_ip = ""
+#         incident.session.client_ip = ""
+#
+#     def index(self):
+#         self.init_incident()
+#         <далее код использующий incident>
+#         return render_template("incidents/index.html", incident=incident)
+
+
+# 12
+# Сузил область видимости списка, из уровня модуля перенес в единственную функцию,
+# где этот список используется
+
+# def create_archive():
+#     tables = [
+#         "deliveries",
+#         "incident_history",
+#         "incidents",
+#         "people",
+#         "permissions",
+#         "reports",
+#         "restriction_groups",
+#         "role_permission",
+#         "role_restriction_group",
+#         "roles",
+#         "schedules",
+#         "search_results",
+#         "targets",
+#         "users",
+#     ]
+
+#     for t in tables:
+#         selected = select([m.Base.metadata.tables[t]])
+#         < запись метаданных в выбранное поле >
+
+
+# 13
+# Вынес в отдельный метод запись свойств для аккаунта администратора
+# def update_admin():
+#     admin = sess.query(User).filter(User.username == "admin").first()
+#     new_password = (
+#         generate_password_hash(args.password) if args.password else DEFAULT_ADMIN_PWD
+#     )
+#
+#     if admin:
+#         admin.password = new_password
+#         admin.force_change_pwd = True
+#         admin.blocked = False
+#         admin.account_expires_at = None
+#         admin.password_expires_at = None
+#         admin.login_attempts = 0
+#     else:
+#         create_user(is_admin=True)
+
+# try:
+#     with session_scope() as sess:
+#         update_admin()
+#         sess.add(admin)
+# except SQLAlchemyError as ex:
+#     log.exception(ex)
+#     print("Cannot change 'admin' account: {}".format(ex), file=sys.stderr)
+#     return 1
+
+
+# 14
+# Сузил область видимости переменной, перенёс список системных команд
+# из модуля в единственную функцию, которая его использует
+# def run_cmd_by_user(user):
+#     sysinfo_commands = [
+#             "/bin/hostname",
+#             ["/bin/ip", "addr"],
+#             ["/bin/ip", "link"],
+#             "/bin/date",
+#             "/usr/bin/uptime",
+#             ["/bin/cat", "/proc/cpuinfo"],
+#             ["/bin/cat", "/proc/meminfo"],
+#             ["/bin/cat", "/proc/vmstat"],
+#             ["/bin/cat", "/proc/loadavg"],
+#             ["/bin/bash", "-c", "ulimit", "-a"],
+#     ]
+#
+#     sysinfo_data = "Run as user: {}\n\n".format(user) if user else ""
+#
+#     for cmd in sysinfo_commands:
+#         cmd_name = str.join(" ", cmd) if isinstance(cmd, list) else cmd
+#         sysinfo_data += "[ {} ] {}\n".format(cmd_name, "-" * (80 - len(cmd_name) + 5))
+#
+#         try:
+#             cmd_data = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+#         except OSError as err:
+#             print("Cannot exec {}: {}".format(cmd, err), file=sys.stderr)
+#             continue
+
+
+# 15
+# Назвал переменную 'hash' и не смог использовать стандартный python метод hash,
+# из наложения областей видимости.
+# переименовал переменную в 'hash'
+
+# hash = hash(path) -> file_hash = hash(path)
